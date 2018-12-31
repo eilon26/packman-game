@@ -43,8 +43,8 @@ public class pachman implements GIS_element {
 	 * 
 	 * @param ge the geom object of the pachman
 	 */
-	public void setGe(geom ge) {
-		this.ge = ge;
+	public void set_Geom(geom newGeom) {
+		this.ge = newGeom;
 	}
 
 @Override

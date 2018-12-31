@@ -14,9 +14,10 @@ import GUI.JPanelWithBackground;
 import Geom.Point3D;
 
 public class advence_dijkstra {
-
+	private Stack<Point3D> route;
+	private double routeDist;
 	
-	public static Stack<Point3D> Dijkstra(JPanelWithBackground jpanel, Point3D a, Point3D b){
+	public advence_dijkstra(JPanelWithBackground jpanel, Point3D a, Point3D b){
 
 		MyCoords MC = new MyCoords();
 		//init all the nodes
@@ -76,14 +77,24 @@ public class advence_dijkstra {
 		}
 
 //restore the route from a to b
-		Stack<Point3D> stack = new Stack<Point3D>();
+		this.route = new Stack<Point3D>();
+		this.routeDist = 0;
 		advence_dijkstra_node curr_node = dst_node;
 //			for (int i=0;i<2;i++) {
 		while(curr_node!=src_node) {
-			stack.push(curr_node.getLoc());
+			this.route.push(curr_node.getLoc());
+			this.routeDist+=MC.distance3d(curr_node.getLoc(), curr_node.getFather().getLoc());
 			curr_node = curr_node.getFather();
 			
 			}
-		return stack;
 	}
+
+	public Stack<Point3D> getRoute() {
+		return route;
+	}
+
+	public double getRouteDist() {
+		return routeDist;
+	}
+	
 }

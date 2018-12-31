@@ -20,22 +20,21 @@ public class auto_control_thread extends Thread {
 	public void run() {
 
 		Point3D player_loc = ((geom)jpanel.getGB().getPlayer().getGeom()).getP();//global location
-		Stack<Point3D> route = advence_dijkstra.Dijkstra(jpanel, player_loc, dst_point);
+		advence_dijkstra dijkstra_route =  new advence_dijkstra(jpanel, player_loc, dst_point);
+		Stack<Point3D> route = dijkstra_route.getRoute();
 		Point3D curr_dst;
 		MyCoords MC = new MyCoords();
 		double[] AED;
 		while(!route.isEmpty()) {
 			curr_dst = route.pop();//global point
-			System.out.println(curr_dst.toString());
-			System.out.println("dst is "+dst_point);
 			player_loc = ((geom)jpanel.getGB().getPlayer().getGeom()).getP();//global location
 			AED = MC.azimuth_elevation_dist(player_loc, curr_dst);
 			jpanel.setAzimuth(AED[0]);
 			double sec_to_curr_dst = AED[2]/20;
-			Thread auto = new auto_thread(jpanel,sec_to_curr_dst);
-			auto.start();
-			try {auto.join();
-			} catch (InterruptedException e) {}
+			//Thread auto = new auto_thread(jpanel,sec_to_curr_dst);
+			//auto.start();
+//			try {auto.join();
+//			} catch (InterruptedException e) {}
 		}
 	}
 }

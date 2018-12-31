@@ -5,6 +5,9 @@ import java.util.Collection;
 
 import java.util.Iterator;
 
+import Geom.Point3D;
+import Geom.geom;
+
 /**
  * the class is contain all the fruit and the pachman objects in the game
  * @author Daniel Ventura and Eilon tsadok
@@ -64,7 +67,55 @@ public class GameBoard implements GIS_layer  {
 			}
 		}
 	}
-
+	
+	public void update_GameBoard(ArrayList<String> board_data){
+		ArrayList<String[]> Board_Data = new ArrayList<String[]>();
+		for(int i=0;i<board_data.size();i++) {
+			String[] element = board_data.get(i).split(",");
+			Board_Data.add(element);
+		}
+		//update the player location
+		int player_ID = ((pachman_metaData)player.getData()).getId();
+		String[] player_new_details = find_ID(Board_Data, player_ID);
+		geom newGeom = new geom(player_new_details);
+		player.set_Geom(newGeom);
+		//update the other characters location
+		ArrayList<GIS_element> toBeRemove = new ArrayList<GIS_element>();
+		Iterator<GIS_element> IterElement = element_set.iterator();
+		while (IterElement.hasNext()) {
+			GIS_element curr = IterElement.next();
+			if (curr instanceof fruit)	{
+				int curr_ID = ((fruit_metaData)curr.getData()).getId();
+				String[] fruit_new_details = find_ID(Board_Data, curr_ID);
+				if (fruit_new_details==null) 
+					toBeRemove.add(curr);
+				else {
+					newGeom = new geom(fruit_new_details);
+					((fruit) curr).set_Geom(newGeom);
+				}
+			}
+			else {
+				int curr_ID = ((pachman_metaData)curr.getData()).getId();
+				String[] pachman_new_details = find_ID(Board_Data, curr_ID);
+				if (pachman_new_details==null) 
+					toBeRemove.add(curr);
+				else {
+					newGeom = new geom(pachman_new_details);
+					((pachman) curr).set_Geom(newGeom);
+				}
+			}	
+		}
+		element_set.removeAll(toBeRemove);
+	}
+	
+	private String[] find_ID(ArrayList<String[]> g, int id) {
+		Iterator<String[]> IterLine = g.iterator();
+		while(IterLine.hasNext()) {
+			String[] line = IterLine.next();
+			if (Integer.parseInt(line[1])==id) return line; 
+		}
+		return null;
+	}
 	/**
 	 * 
 	 * @return element_set

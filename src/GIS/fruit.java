@@ -49,6 +49,10 @@ public fruit (fruit other) {
 public Geom_element getGeom() {
 	return ge;
 }
+
+public void set_Geom(geom newGeom) {
+	this.ge = newGeom;
+}
 /**
  * @return the metadata of fruit
  */

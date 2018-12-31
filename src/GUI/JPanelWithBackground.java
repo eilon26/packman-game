@@ -37,6 +37,7 @@ import Geom.Point3D;
 import Geom.geom;
 import Robot.Play;
 import algorithms.advence_dijkstra;
+import algorithms.closet_fruit;
 import algorithms.cross;
 import algorithms.twoPointDijkstra;
 
@@ -98,7 +99,8 @@ public class JPanelWithBackground extends JPanel implements MouseListener  {
 				if ((type=='S')||(type=='A')) {
 					play1.rotate(azimuth);
 					ArrayList<String> board_data = play1.getBoard();
-					this.GB = new play2GB(board_data).getGB();//update the GB
+//					this.GB = new play2GB(board_data).getGB();//update the GB
+					this.GB.update_GameBoard(board_data);
 					String info = play1.getStatistics();// get the current score of the game
 					System.out.println(info);
 //					if (i%100==0)printMat();
@@ -218,7 +220,7 @@ public class JPanelWithBackground extends JPanel implements MouseListener  {
 					else {
 					Point3D player_point = m.pixel2global(new Point3D(x,y));//global point
 					play1.setInitLocation(player_point.y(),player_point.x());//set player location
-					GB.getPlayer().setGe(new geom(player_point));
+					GB.getPlayer().set_Geom(new geom(player_point));
 					type='N';
 					repaint();
 					}
@@ -243,11 +245,13 @@ public class JPanelWithBackground extends JPanel implements MouseListener  {
 //					Point3D dst_point = m.pixel2global(new Point3D(x,y));//global point
 //					new auto_paint_thread(this,dst_point).start();
 //				}
-				if (type =='A') {
-					
-					Point3D dst_point = m.pixel2global(new Point3D(x,y));//global point
-					new auto_control_thread(this, dst_point).start();
-				}
+				//***********ver1**************
+//				if (type =='A') {
+//					
+//					Point3D dst_point = m.pixel2global(new Point3D(x,y));//global point
+//					new auto_control_thread(this, dst_point).start();
+//				}
+				//***********ver1**************
 			}
 
 			@Override
@@ -315,9 +319,21 @@ public class JPanelWithBackground extends JPanel implements MouseListener  {
 			}
 			
 			public void startAuto(ActionEvent e) {
-				// 6) Start the "server"
+				//****************ver 1******
+//				play1.start();
+//				type = 'A';
+
+				//****************ver 2******
 				play1.start();
 				type = 'A';
+				new auto_main_control(play1,this).start();
+				//while(play1.isRuning()) {
+//					Thread control = new auto_control_thread2(this, closet_fruit.find_short_route(this.getGB(), this));
+//					control.start();
+//					while (control.isAlive());
+//					try { control.join();
+//					} catch (InterruptedException e1) {}
+				//}
 			}
 			public void viewDataBase(ActionEvent e) {
 				data_base.main(null);
