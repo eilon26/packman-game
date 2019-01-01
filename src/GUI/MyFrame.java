@@ -101,7 +101,7 @@ public class MyFrame extends JFrame {
 		MyFrame window = new MyFrame();
 		window.setVisible(true);
 		//window.setSize(window.myImage.getWidth(),window.myImage.getHeight());
-		window.setSize(1300,700);
+		window.setSize(1200,600);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 }

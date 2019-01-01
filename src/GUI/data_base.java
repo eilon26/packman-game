@@ -31,13 +31,13 @@ public class data_base {
 			String allCustomersQuery = "SELECT * FROM logs WHERE SomeDouble="+fileNameNum;
 			ResultSet resultSet = statement.executeQuery(allCustomersQuery);
 //			System.out.println("FirstID\t\tSecondID\tThirdID\t\tLogTime\t\t\t\tPoint\t\tSomeDouble");
-			StringBuilder content = new StringBuilder("FirstID\t\tSecondID\tThirdID\t\tLogTime\t\t\t\tPoint\t\tSomeDouble\r\n");
+			StringBuilder content = new StringBuilder("FirstID\tSecondID\tThirdID\tLogTime\t\tPoint\t\tSomeDouble\r\n");
 			while(resultSet.next())
 			{
-				content.append(resultSet.getInt("FirstID")+"\t\t" +
-						resultSet.getInt("SecondID")+"\t\t" +
-						resultSet.getInt("ThirdID")+"\t\t" +
-						resultSet.getTimestamp("LogTime") +"\t\t\t\t" +
+				content.append(resultSet.getInt("FirstID")+"\t" +
+						resultSet.getInt("SecondID")+"\t" +
+						resultSet.getInt("ThirdID")+"\t" +
+						resultSet.getTimestamp("LogTime") +"\t" +
 						resultSet.getDouble("Point") +"\t\t" +
 						resultSet.getDouble("SomeDouble")+"\r\n");
 			}
@@ -51,14 +51,17 @@ public class data_base {
 		frame.setLayout(null);
 		frame.setVisible(true);
 		frame.setResizable(true);
-		frame.setBounds(200,20,1130,650);
+		frame.setBounds(200,20,750,650);
+		
 		JTextArea JTA = new JTextArea();
-		JTA.setBounds(0,0,1100,600);
+		JTA.setBounds(0,0,frame.getWidth()-25,frame.getHeight());
 		JTA.setText(content.toString());
 		JTA.setEditable(false);
+		
 		JScrollPane JSP = new JScrollPane(JTA);
-		JSP.setBounds(0,0,1100,600);
+		JSP.setBounds(0,0,frame.getWidth()-40,frame.getHeight());
 		frame.add(JSP);
+		
 		
 		}
 		catch (SQLException sqle) {
