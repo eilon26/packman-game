@@ -1,10 +1,11 @@
 package algorithms;
 
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Stack;
 
-import GIS.GIS_element;
+
 import GIS.GameBoard;
 import GIS.fruit;
 import GUI.JPanelWithBackground;
@@ -16,14 +17,14 @@ public class closet_fruit {
 	private double minDist;
 	private fruit dst_fruit;
 
-	public closet_fruit(GameBoard GB, JPanelWithBackground jpanel) {
+	public closet_fruit(GameBoard GB, JPanelWithBackground jpanel, ArrayList<fruit> fruit_To_Remove) {
 		minDist = Double.MAX_VALUE;
 		minRoute=null;
 		dst_fruit = null;
-		Iterator<GIS_element> IterElement = GB.iterator();
-		while (IterElement.hasNext()) {
-			GIS_element curr = IterElement.next();
-			if (curr instanceof fruit) {
+		Iterator<fruit> IterFruit = GB.getFruits().iterator();
+		while (IterFruit.hasNext()) {	
+			fruit curr = IterFruit.next();
+			if ((fruit_To_Remove == null)||(!fruit_To_Remove.contains(curr))) {
 				Point3D fruit_loc = ((geom)curr.getGeom()).getP();
 				Point3D player_loc = ((geom)GB.getPlayer().getGeom()).getP();
 				advence_dijkstra Dijkstra = new advence_dijkstra(jpanel,player_loc,fruit_loc);
@@ -31,9 +32,10 @@ public class closet_fruit {
 				if (curr_dist<minDist) {
 					minDist = curr_dist;
 					minRoute = Dijkstra.getRoute();
-					dst_fruit = (fruit) curr;
+					dst_fruit = curr;
 				}
 			}
+
 		}
 	}
 
@@ -48,5 +50,5 @@ public class closet_fruit {
 	public fruit getDst_fruit() {
 		return dst_fruit;
 	}
-	
+
 }

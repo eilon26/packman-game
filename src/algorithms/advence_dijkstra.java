@@ -26,7 +26,7 @@ public class advence_dijkstra {
 		nodes.add(src_node);
 		advence_dijkstra_node dst_node = new advence_dijkstra_node(b);
 		nodes.add(dst_node);
-		Iterator<box> IterBox = jpanel.getGB().box_iterator();
+		Iterator<box> IterBox = jpanel.getGB().getBox_set().iterator();
 		while (IterBox.hasNext()) {
 			box curr = IterBox.next();
 			nodes.add(new advence_dijkstra_node(MC.add(curr.getP1(),new Point3D(-10,-10,0))));//add vec

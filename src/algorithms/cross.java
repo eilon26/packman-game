@@ -51,16 +51,9 @@ public class cross {
 		return findCross;
 	}
 
-	private static void swap(Point3D p1,Point3D p2) {
-		Point3D temp = p1;
-		p1 = p2;
-		p2 = temp;
-	}
 	private static double function(double XorY,Point3D src,Point3D dst,char type) {
 		double minX = Math.min(dst.x(), src.x());
 		double maxX = Math.max(dst.x(), src.x());
-		double minY = Math.min(dst.y(), src.y());
-		double maxY = Math.max(dst.y(), src.y());
 		double mehane = (maxX-minX);
 		if (mehane==0) mehane = 0.00001;
 		double m;
@@ -74,9 +67,4 @@ public class cross {
 			return ((XorY-src.y())/m)+src.x();
 		}
 	}
-
-	//	public static void main(String[] args)
-	//	{
-	//		System.out.println(function(3,new Point3D(2,3),new Point3D(5,1),'Y'));
-	//	}
 }

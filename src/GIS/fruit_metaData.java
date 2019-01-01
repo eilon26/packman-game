@@ -12,7 +12,6 @@ import Geom.Point3D;
 public class fruit_metaData implements Meta_Data {
 	private int id;
 	private double weight;
-	private LocByTime[] loc_by_time;
 	/**
 	 * the constructor get Array of strings that represent the fruit and get array of indexes. 
 	 * by the array of indexes it know to put the information in the suitable field
@@ -22,7 +21,6 @@ public class fruit_metaData implements Meta_Data {
 	public fruit_metaData(String[] line) {
 		id = Integer.parseInt(line[1]);
 		weight = Double.parseDouble(line[5]);	
-		this.loc_by_time = new LocByTime[2];
 	}
 	/**
 	 * the constructor of fruit meta data that get id and weight
@@ -32,7 +30,6 @@ public class fruit_metaData implements Meta_Data {
 	public fruit_metaData(int id,int weight) {
 		this.id=id;
 		this.weight=weight;
-		this.loc_by_time = new LocByTime[2];
 	}
 	/**
 	 * the copy constructor of fruit meta data
@@ -41,15 +38,9 @@ public class fruit_metaData implements Meta_Data {
 	public fruit_metaData(fruit_metaData other) {
 		this.id = other.getId();
 		this.weight = other.getweight();
-		this.loc_by_time = new LocByTime[2];
+
 	}
-	/**
-	 * 
-	 * @return loc_by_time
-	 */
-	public LocByTime[] getLoc_by_time() {
-		return loc_by_time;
-	}
+
     /**
      * @return the id
      */

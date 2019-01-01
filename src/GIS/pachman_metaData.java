@@ -13,7 +13,6 @@ public class pachman_metaData implements Meta_Data {
 	private int id;
 	private double speed;
 	private double radius;
-	private ArrayList<LocByTime> loc_by_time;
 	/**
 	 * the constructor get Array of strings that represent the pachman and get array of indexes. 
 	 * by the array of indexes it know to put the information in the suitable field
@@ -24,7 +23,6 @@ public class pachman_metaData implements Meta_Data {
 		this.id = Integer.parseInt(line[1]);
 		this.speed = Double.parseDouble(line[5]);
 		this.radius = Double.parseDouble(line[6]);
-		this.loc_by_time = new ArrayList<LocByTime>();
 	}
 	/**
 	 * the constructor of pachman meta data that get id, speed and radius
@@ -36,7 +34,6 @@ public class pachman_metaData implements Meta_Data {
 		this.id=id;
 		this.speed=speed;
 		this.radius=radius;
-		this.loc_by_time = new ArrayList<LocByTime>();
 	}
 	/**
 	 * the copy constructor
@@ -46,15 +43,9 @@ public class pachman_metaData implements Meta_Data {
 		this.id=md.id;
 		this.speed=md.speed;
 		this.radius=md.radius;
-		this.loc_by_time = new ArrayList<LocByTime>();
+
 	}
-	/**
-	 * 
-	 * @return loc_by_time
-	 */
-	public ArrayList<LocByTime> getLoc_by_time() {
-		return loc_by_time;
-	}
+
 	/**
 	 *  
 	 * @return pachman id
