@@ -74,6 +74,6 @@ public class starting_point {
 				}
 			}
 		}
-		return MC.add(maxP, new Point3D(5,5,0));
+		return MC.add(maxP, new Point3D(1,1,0));
 	}
 }

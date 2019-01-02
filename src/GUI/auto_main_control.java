@@ -5,12 +5,14 @@ import java.util.ArrayList;
 
 import Coords.MyCoords;
 import GIS.fruit;
+import GIS.pachman;
 import Geom.Point3D;
 import Geom.geom;
 import Robot.Play;
 import algorithms.closet_fruit;
 import algorithms.deal_with_fruit;
 import algorithms.deal_with_ghost;
+import algorithms.deal_with_pachman;
 import algorithms.fruit_group_layer;
 
 public class auto_main_control extends Thread {
@@ -21,6 +23,7 @@ public class auto_main_control extends Thread {
 	private boolean isGointToKill = false;
 	private char isCloseFruit = 'N';
 	private boolean isTooMuchTime = false;
+	private Point3D Pachman_on_way = null;
 	
 	public auto_main_control(Play play1,JPanelWithBackground jpanel) {
 		this.play1 = play1;
@@ -35,8 +38,6 @@ public class auto_main_control extends Thread {
 			fruit_group_layer FGL = new fruit_group_layer(jpanel.getGB());			
 			fruitRelatedToPachmans = FGL.fruits_related_to_pachmans();
 			//take the closet fruit without pachman close to. otherwise take the closet fruit
-			if (isCloseFruit =='F') isCloseFruit = 'N';
-			if (isTooMuchTime) isTooMuchTime = false;
 			if ((fruitRelatedToPachmans.size()<jpanel.getGB().getFruits().size())&&(isCloseFruit =='N'))
 				 CF = new closet_fruit(jpanel.getGB(), jpanel,fruitRelatedToPachmans);
 			else  {
@@ -51,7 +52,7 @@ public class auto_main_control extends Thread {
 				MyCoords MC = new MyCoords();
 				double[] AED;
 
-				while (jpanel.getPlay1().isRuning()&&(!CF.getMinRoute().isEmpty())&&(jpanel.getGB().getFruits().contains(CF.getDst_fruit()))&&continue_to_next_fruit&&!isGointToKill&&((isCloseFruit == 'N')||(isCloseFruit == 'F'))&&!isTooMuchTime) {
+				while (jpanel.getPlay1().isRuning()&&(!CF.getMinRoute().isEmpty())&&(jpanel.getGB().getFruits().contains(CF.getDst_fruit()))&&continue_to_next_fruit&&!isGointToKill&&((isCloseFruit == 'N')||(isCloseFruit == 'F'))&&!isTooMuchTime&&(Pachman_on_way==null)) {
 					curr_dst = CF.getMinRoute().pop();//global point
 					player_loc = ((geom)jpanel.getGB().getPlayer().getGeom()).getP();//global location
 					AED = MC.azimuth_elevation_dist(player_loc, curr_dst);
@@ -61,7 +62,7 @@ public class auto_main_control extends Thread {
 //					} catch (InterruptedException e) {}
 					//****************go straight to point in dijkstra way ********************************
 					int counter = 0;
-					while (jpanel.getPlay1().isRuning()&&(counter <= sec_to_curr_dst*1000)&&(jpanel.getGB().getFruits().contains(CF.getDst_fruit()))&&(continue_to_next_fruit(CF))&&(!deal_with_ghost.isGoingToKill(jpanel,this))&&(deal_with_fruit.is_close_enough(jpanel, CF.getDst_fruit(),this)=='N')&&!isTooMuchTime) {
+					while (jpanel.getPlay1().isRuning()&&(counter <= sec_to_curr_dst*1000)&&(jpanel.getGB().getFruits().contains(CF.getDst_fruit()))&&(continue_to_next_fruit(CF))&&(!deal_with_ghost.isGoingToKill(jpanel,this))&&(deal_with_fruit.is_close_enough(jpanel, CF.getDst_fruit(),this)=='N')&&!isTooMuchTime&&(deal_with_pachman.isclose(jpanel, this)==null)) {
 						this.jpanel.repaint();
 						try {Thread.sleep((long) (50));
 						} catch (InterruptedException e) {}
@@ -69,10 +70,14 @@ public class auto_main_control extends Thread {
 						if (counter>3000) isTooMuchTime = true;
 					}
 					if (isGointToKill) deal_with_ghost.Action(jpanel);
+					if (Pachman_on_way!=null) deal_with_pachman.Action(jpanel, Pachman_on_way);
 					//****************go straight to point in dijkstra way ********************************
 				}
 				if (continue_to_next_fruit==false) continue_to_next_fruit = true;
 				if (isGointToKill == true) isGointToKill = false;
+				if (Pachman_on_way!=null) Pachman_on_way=null;
+				if (isCloseFruit =='F') isCloseFruit = 'N';
+				if (isTooMuchTime) isTooMuchTime = false;
 			}
 			//****************go through the the Points by dijkstra to the destination fruit*******************************
 		}
@@ -107,5 +112,9 @@ public class auto_main_control extends Thread {
 		return this.isCloseFruit;
 	}
 
+	public void setPachman_on_way(Point3D pachman_on_way) {
+		Pachman_on_way = pachman_on_way;
+	}
+	
 		
 }

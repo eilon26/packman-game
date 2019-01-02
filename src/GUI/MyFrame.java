@@ -33,6 +33,7 @@ public class MyFrame extends JFrame {
 			Menu file = new Menu("file");
 			Menu start = new Menu("start");
 			Menu dataBase = new Menu("dataBase");
+			Menu clearScreen = new Menu("clear screen");
 			
 			MenuItem load = new MenuItem("load csv file");
 			load.addActionListener(
@@ -70,13 +71,25 @@ public class MyFrame extends JFrame {
 						}
 					}
 					);
+			MenuItem clear = new MenuItem("clear");
+			clear.addActionListener(
+					new ActionListener(){
+						public void actionPerformed(ActionEvent e)
+						{
+							jpanel.clear(e);
+						}
+					}
+					);
 			menuBar.add(file);
 			menuBar.add(start);
 			menuBar.add(dataBase);
+			menuBar.add(clearScreen);
+			
 			file.add(load);
 			start.add(startManual);
 			start.add(startAuto);
 			dataBase.add(viewDataBase);
+			clearScreen.add(clear);
 			this.setMenuBar(menuBar);
 	}
 

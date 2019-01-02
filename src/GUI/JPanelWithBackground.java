@@ -266,9 +266,6 @@ public class JPanelWithBackground extends JPanel implements MouseListener  {
 			this.play1 = null;
 			this.azimuth = 0;
 			this.type= 'N';
-			this.m = new ariel_map(this);
-			try {	this.backgroundImage = ImageIO.read(new File(m.getPath()));
-			} catch (IOException ex) {}
 		}
 
 		JFileChooser fileChooser = new JFileChooser();
@@ -311,6 +308,14 @@ public class JPanelWithBackground extends JPanel implements MouseListener  {
 	}
 	public void viewDataBase(ActionEvent e) {
 		data_base.main(null);
+	}
+	
+	public void clear(ActionEvent e) {
+		this.GB = new GameBoard();
+		this.play1 = null;
+		this.azimuth = 0;
+		this.type= 'N';
+		repaint();
 	}
 	//***********************getters and setters************************
 

@@ -1,14 +1,13 @@
 package algorithms;
 
-import java.util.ArrayDeque;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.PriorityQueue;
-import java.util.Queue;
+
 import java.util.Stack;
 
 import Coords.MyCoords;
-import GIS.ariel_map;
 import GIS.box;
 import GUI.JPanelWithBackground;
 import Geom.Point3D;
@@ -29,10 +28,10 @@ public class advence_dijkstra {
 		Iterator<box> IterBox = jpanel.getGB().getBox_set().iterator();
 		while (IterBox.hasNext()) {
 			box curr = IterBox.next();
-			nodes.add(new advence_dijkstra_node(MC.add(curr.getP1(),new Point3D(-5,-5,0))));//add vec
-			nodes.add(new advence_dijkstra_node(MC.add(curr.getP2(),new Point3D(5,5,0))));
-			nodes.add(new advence_dijkstra_node(MC.add(curr.getP3(),new Point3D(-5,5,0))));
-			nodes.add(new advence_dijkstra_node(MC.add(curr.getP4(),new Point3D(5,-5,0))));
+			nodes.add(new advence_dijkstra_node(MC.add(curr.getP1(),new Point3D(-7,-7,0))));//add vec
+			nodes.add(new advence_dijkstra_node(MC.add(curr.getP2(),new Point3D(7,7,0))));
+			nodes.add(new advence_dijkstra_node(MC.add(curr.getP3(),new Point3D(-7,7,0))));
+			nodes.add(new advence_dijkstra_node(MC.add(curr.getP4(),new Point3D(7,-7,0))));
 		}
 		//init the nodes neighbors
 		Iterator<advence_dijkstra_node> IterNode = nodes.iterator();
@@ -64,10 +63,7 @@ public class advence_dijkstra {
 
 				if (neighbor.getDis2src()>dist_throgh_father) {
 					//update the mat and the PQ
-					
-//					System.out.println(dist_throgh_father);
-//					try {Thread.sleep((long) (500));//refer to the defined time rati
-//					} catch (InterruptedException e) {}
+
 					pq.remove(neighbor);
 					neighbor.setDis2src(dist_throgh_father);
 					neighbor.setFather(curr);
