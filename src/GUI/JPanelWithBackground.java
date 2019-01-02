@@ -52,10 +52,7 @@ public class JPanelWithBackground extends JPanel implements MouseListener  {
 	private int y;
 	private char type; 	
 	private Image backgroundImage;
-	// parameter for the painting
-	private boolean continue_to_next_fruit=true;
-	private boolean isGointToKill = false;
-	private char isCloseFruit = 'N';
+
 
 	public JPanelWithBackground() {
 		this.GB = new GameBoard();
@@ -237,28 +234,6 @@ public class JPanelWithBackground extends JPanel implements MouseListener  {
 				new paint_thread(this).start();
 			}
 		}
-
-		//crossing check();
-		//					Point3D dst = m.pixel2global(new Point3D(x,y));
-		//					System.out.println(cross.isCross(((geom)GB.getPlayer().getGeom()).getP(), dst, GB.getBox_set()));
-		//					try {
-		//						Thread.sleep(2000);
-		//					} catch (InterruptedException e) {
-		//						// TODO Auto-generated catch block
-		//						e.printStackTrace();
-		//					}
-
-		//				if (type =='A') {
-		//					Point3D dst_point = m.pixel2global(new Point3D(x,y));//global point
-		//					new auto_paint_thread(this,dst_point).start();
-		//				}
-		//***********ver1**************
-		//				if (type =='A') {
-		//					
-		//					Point3D dst_point = m.pixel2global(new Point3D(x,y));//global point
-		//					new auto_control_thread(this, dst_point).start();
-		//				}
-		//***********ver1**************
 	}
 
 	@Override
@@ -307,10 +282,10 @@ public class JPanelWithBackground extends JPanel implements MouseListener  {
 			play2GB p2BG = new play2GB(board_data);
 			this.GB = p2BG.getGB();//init the gameBord with the starting data
 			repaint();
-			// 2) Set your ID's - of all the group members
-			//					String input1 = JOptionPane.showInputDialog(null, "enter first id");
-			//					String input2 = JOptionPane.showInputDialog(null, "enter second id");
-			//					play1.setIDs(Long.parseLong(input1),Long.parseLong(input2));
+
+//			String input1 = JOptionPane.showInputDialog(null, "enter first id");
+//			String input2 = JOptionPane.showInputDialog(null, "enter second id");
+//			play1.setIDs(Long.parseLong(input1),Long.parseLong(input2));
 			play1.setIDs(304950645,318875085);
 
 		}
@@ -324,12 +299,12 @@ public class JPanelWithBackground extends JPanel implements MouseListener  {
 	}
 
 	public void startAuto(ActionEvent e) {
-		Point3D player_point = starting_point.find(GB);//global point
+		Point3D player_point = starting_point.find3(GB,this);//global point
 		play1.setInitLocation(player_point.y(),player_point.x());//set player location
 		GB.getPlayer().set_Geom(new geom(player_point));
 		type='N';
 		repaint();
-		
+
 		play1.start();
 		type = 'A';
 		new auto_main_control(play1,this).start();
@@ -389,34 +364,5 @@ public class JPanelWithBackground extends JPanel implements MouseListener  {
 		return imgPlayer;
 	}
 
-
-	public boolean getContinue_to_next_fruit() {
-		return continue_to_next_fruit;
-	}
-
-
-	public void setContinue_to_next_fruit(boolean continue_to_next_fruit) {
-		this.continue_to_next_fruit = continue_to_next_fruit;
-	}
-
-
-	public boolean isGointToKill() {
-		return isGointToKill;
-	}
-
-
-	public void setGointToKill(boolean isGointToKill) {
-		this.isGointToKill = isGointToKill;
-	}
-
-
-	public char isCloseFruit() {
-		return isCloseFruit;
-	}
-
-
-	public void setCloseFruit(char isCloseFruit) {
-		this.isCloseFruit = isCloseFruit;
-	}
 
 }

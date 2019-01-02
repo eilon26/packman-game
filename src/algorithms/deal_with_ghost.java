@@ -5,6 +5,7 @@ import java.util.Iterator;
 import Coords.MyCoords;
 import GIS.Ghost;
 import GUI.JPanelWithBackground;
+import GUI.auto_main_control;
 import Geom.Point3D;
 import Geom.geom;
 
@@ -15,14 +16,14 @@ public class deal_with_ghost {
 	final static int AmountOfRotate = 5;
 	final static int disOfClose = 10;
 	
-	public static boolean isGoingToKill(JPanelWithBackground jpanel) {
+	public static boolean isGoingToKill(JPanelWithBackground jpanel, auto_main_control thread) {
 		Iterator<Ghost> IterGhost = jpanel.getGB().getGhosts().iterator();
 		while (IterGhost.hasNext()) {
 			Ghost curr = IterGhost.next();
 			Point3D Ghost_loc = ((geom)curr.getGeom()).getP();
 			Point3D player_loc = ((geom)jpanel.getGB().getPlayer().getGeom()).getP();
 			if ((MC.distance3d(player_loc, Ghost_loc)<disOfClose)&&(isOppositeAzimuth(player_loc, Ghost_loc, jpanel))) {
-				jpanel.setGointToKill(true);
+				thread.setGointToKill(true);
 				return true;
 			}
 		}

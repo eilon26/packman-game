@@ -29,10 +29,10 @@ public class advence_dijkstra {
 		Iterator<box> IterBox = jpanel.getGB().getBox_set().iterator();
 		while (IterBox.hasNext()) {
 			box curr = IterBox.next();
-			nodes.add(new advence_dijkstra_node(MC.add(curr.getP1(),new Point3D(-10,-10,0))));//add vec
-			nodes.add(new advence_dijkstra_node(MC.add(curr.getP2(),new Point3D(10,10,0))));
-			nodes.add(new advence_dijkstra_node(MC.add(curr.getP3(),new Point3D(-10,10,0))));
-			nodes.add(new advence_dijkstra_node(MC.add(curr.getP4(),new Point3D(10,-10,0))));
+			nodes.add(new advence_dijkstra_node(MC.add(curr.getP1(),new Point3D(-5,-5,0))));//add vec
+			nodes.add(new advence_dijkstra_node(MC.add(curr.getP2(),new Point3D(5,5,0))));
+			nodes.add(new advence_dijkstra_node(MC.add(curr.getP3(),new Point3D(-5,5,0))));
+			nodes.add(new advence_dijkstra_node(MC.add(curr.getP4(),new Point3D(5,-5,0))));
 		}
 		//init the nodes neighbors
 		Iterator<advence_dijkstra_node> IterNode = nodes.iterator();
@@ -80,7 +80,6 @@ public class advence_dijkstra {
 		this.route = new Stack<Point3D>();
 		this.routeDist = 0;
 		advence_dijkstra_node curr_node = dst_node;
-//			for (int i=0;i<2;i++) {
 		while(curr_node!=src_node) {
 			this.route.push(curr_node.getLoc());
 			this.routeDist+=MC.distance3d(curr_node.getLoc(), curr_node.getFather().getLoc());
