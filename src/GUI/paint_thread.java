@@ -16,9 +16,10 @@ public class paint_thread extends Thread {
 	public void run() {
 		
 		while(jpanel.get_type()!='F') {
+			this.jpanel.repaint();
 			try {Thread.sleep((long) (100));
 			} catch (InterruptedException e) {}
-			this.jpanel.repaint();
+			
 		}
 	}
 

@@ -28,10 +28,10 @@ public class advence_dijkstra {
 		Iterator<box> IterBox = jpanel.getGB().getBox_set().iterator();
 		while (IterBox.hasNext()) {
 			box curr = IterBox.next();
-			nodes.add(new advence_dijkstra_node(MC.add(curr.getP1(),new Point3D(-7,-7,0))));//add vec
-			nodes.add(new advence_dijkstra_node(MC.add(curr.getP2(),new Point3D(7,7,0))));
-			nodes.add(new advence_dijkstra_node(MC.add(curr.getP3(),new Point3D(-7,7,0))));
-			nodes.add(new advence_dijkstra_node(MC.add(curr.getP4(),new Point3D(7,-7,0))));
+			nodes.add(new advence_dijkstra_node(MC.add(curr.getP1(),new Point3D(-5,-5,0))));//add vec
+			nodes.add(new advence_dijkstra_node(MC.add(curr.getP2(),new Point3D(5,5,0))));
+			nodes.add(new advence_dijkstra_node(MC.add(curr.getP3(),new Point3D(-5,5,0))));
+			nodes.add(new advence_dijkstra_node(MC.add(curr.getP4(),new Point3D(5,-5,0))));
 		}
 		//init the nodes neighbors
 		Iterator<advence_dijkstra_node> IterNode = nodes.iterator();

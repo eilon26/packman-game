@@ -14,7 +14,7 @@ public class deal_with_ghost {
 	final static int MaxDiffAzimuth = 30;
 	final static int AddtoPlayerAzimuth = 60;
 	final static int AmountOfRotate = 5;
-	final static int disOfClose = 8;
+	final static int disOfClose = 10;
 	
 	public static boolean isGoingToKill(JPanelWithBackground jpanel, auto_main_control thread) {
 		Iterator<Ghost> IterGhost = jpanel.getGB().getGhosts().iterator();

@@ -5,20 +5,15 @@ import java.util.ArrayList;
 
 import Coords.MyCoords;
 import GIS.fruit;
-import GIS.pachman;
 import Geom.Point3D;
 import Geom.geom;
 import Robot.Play;
-import algorithms.closet_fruit;
-import algorithms.deal_with_fruit;
-import algorithms.deal_with_ghost;
-import algorithms.deal_with_pachman;
-import algorithms.fruit_group_layer;
+import algorithms.*;
 
 public class auto_main_control extends Thread {
 	private Play play1;
 	private JPanelWithBackground jpanel;
-	// parameter for the terms
+	// parameter for the terms of the inside loops
 	private boolean continue_to_next_fruit=true;
 	private boolean isGointToKill = false;
 	private char isCloseFruit = 'N';
@@ -52,17 +47,24 @@ public class auto_main_control extends Thread {
 				MyCoords MC = new MyCoords();
 				double[] AED;
 
-				while (jpanel.getPlay1().isRuning()&&(!CF.getMinRoute().isEmpty())&&(jpanel.getGB().getFruits().contains(CF.getDst_fruit()))&&continue_to_next_fruit&&!isGointToKill&&((isCloseFruit == 'N')||(isCloseFruit == 'F'))&&!isTooMuchTime&&(Pachman_on_way==null)) {
+				while (jpanel.getPlay1().isRuning()&&(!CF.getMinRoute().isEmpty())&&
+						(jpanel.getGB().getFruits().contains(CF.getDst_fruit()))&&
+						continue_to_next_fruit&&!isGointToKill&&
+						((isCloseFruit == 'N')||(isCloseFruit == 'F'))&&
+						!isTooMuchTime&&(Pachman_on_way==null)) {
 					curr_dst = CF.getMinRoute().pop();//global point
 					player_loc = ((geom)jpanel.getGB().getPlayer().getGeom()).getP();//global location
 					AED = MC.azimuth_elevation_dist(player_loc, curr_dst);
 					jpanel.setAzimuth(AED[0]);
 					double sec_to_curr_dst = AED[2]/20;
 
-//					} catch (InterruptedException e) {}
 					//****************go straight to point in dijkstra way ********************************
 					int counter = 0;
-					while (jpanel.getPlay1().isRuning()&&(counter <= sec_to_curr_dst*1000)&&(jpanel.getGB().getFruits().contains(CF.getDst_fruit()))&&(continue_to_next_fruit(CF))&&(!deal_with_ghost.isGoingToKill(jpanel,this))&&(deal_with_fruit.is_close_enough(jpanel, CF.getDst_fruit(),this)=='N')&&!isTooMuchTime&&(deal_with_pachman.isclose(jpanel, this)==null)) {
+					while (jpanel.getPlay1().isRuning()&&(counter <= sec_to_curr_dst*1000)&&
+							(jpanel.getGB().getFruits().contains(CF.getDst_fruit()))&&
+							(continue_to_next_fruit(CF))&&(!deal_with_ghost.isGoingToKill(jpanel,this))&&
+							(deal_with_fruit.is_close_enough(jpanel, CF.getDst_fruit(),this)=='N')&&
+							!isTooMuchTime&&(deal_with_pachman.isclose(jpanel, this)==null)) {
 						this.jpanel.repaint();
 						try {Thread.sleep((long) (50));
 						} catch (InterruptedException e) {}
@@ -71,7 +73,7 @@ public class auto_main_control extends Thread {
 					}
 					if (isGointToKill) deal_with_ghost.Action(jpanel);
 					if (Pachman_on_way!=null) deal_with_pachman.Action(jpanel, Pachman_on_way);
-					//****************go straight to point in dijkstra way ********************************
+					//****************end of go straight to point in dijkstra way ********************************
 				}
 				if (continue_to_next_fruit==false) continue_to_next_fruit = true;
 				if (isGointToKill == true) isGointToKill = false;
@@ -79,18 +81,27 @@ public class auto_main_control extends Thread {
 				if (isCloseFruit =='F') isCloseFruit = 'N';
 				if (isTooMuchTime) isTooMuchTime = false;
 			}
-			//****************go through the the Points by dijkstra to the destination fruit*******************************
+			//****************end of go through the the Points by dijkstra to the destination fruit*******************************
 		}
-		//*********************the loop search for the next fruit by the algorithm***************************************
+		//*********************end of the loop search for the next fruit by the algorithm***************************************
+		try {Thread.sleep((long) (500));
+		} catch (InterruptedException e) {}
+		//when the game end by pachman or time was finnishing take care to print the last statistics
 		jpanel.repaint();
 	}
-
+	/**
+	 * check if the dst fruit became inside a group of some pachman
+	 * @param CF closet_fruit type
+	 * @return true if the dst fruit is not became inside a fruit group of some pachman
+	 * or if the amount of the fruits that belong to some pachmans are not less
+	 * than the amount of all the fruits   
+	 */
 	private boolean continue_to_next_fruit(closet_fruit CF) {
 		fruit_group_layer FGL = new fruit_group_layer(jpanel.getGB());
 		ArrayList<fruit> fruitRelatedToPachmans = FGL.fruits_related_to_pachmans();
 		boolean pachmans_Fruits_Contain_Dst_Fruit = fruitRelatedToPachmans.contains(CF.getDst_fruit());
-		boolean pachmans_Fruits_Smaller_All_Fruits = fruitRelatedToPachmans.size()<jpanel.getGB().getFruits().size(); 
-		boolean continueNextFruit = (!pachmans_Fruits_Contain_Dst_Fruit||!pachmans_Fruits_Smaller_All_Fruits);
+		boolean pachmansFruitsSmallerAllFruits=fruitRelatedToPachmans.size()<jpanel.getGB().getFruits().size(); 
+		boolean continueNextFruit = (!pachmans_Fruits_Contain_Dst_Fruit||!pachmansFruitsSmallerAllFruits);
 		if (isCloseFruit =='F') continueNextFruit=true;
 		continue_to_next_fruit = continueNextFruit;
 		return continueNextFruit;

@@ -1,6 +1,7 @@
 package GUI;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -68,7 +69,7 @@ public class JPanelWithBackground extends JPanel implements MouseListener  {
 		} catch (IOException e) {}
 		try{ imgF = ImageIO.read(new File("fruit.png"));
 		} catch (IOException ex) {}
-		try{ imgG = ImageIO.read(new File("Ghost.jpg"));
+		try{ imgG = ImageIO.read(new File("ghost.jpg"));
 		} catch (IOException ex) {}
 		try{ imgPlayer = ImageIO.read(new File("player.jpg"));
 		} catch (IOException ex) {}
@@ -85,29 +86,21 @@ public class JPanelWithBackground extends JPanel implements MouseListener  {
 		int rF = 23;
 		int rG = 30;
 		int rPl = 30;
-		//g2d.drawImage(myImage, 0, 0, this.getWidth(), this.getHeight(), this);
-		//			if(x!=-1 && y!=-1 && type!='N')
-		//			{
-		//			i++;
+		//take care player moving
 		if ((type=='S')||(type=='A')) {
 			play1.rotate(azimuth);
 			ArrayList<String> board_data = play1.getBoard();
-			//					this.GB = new play2GB(board_data).getGB();//update the GB
 			this.GB.update_GameBoard(board_data);
 			String info = play1.getStatistics();// get the current score of the game
-			System.out.println(info);
-			//					if (i%100==0)printMat();
-			//	if (!isContainFruits()||(isTimeEnd())) {
+			g.setColor(Color.WHITE);
+			Font f = new Font ("game",Font.BOLD,16);
+			g.setFont(f);
+			g.drawString(info,20, 20);
+
 			if (!play1.isRuning()) {
 				type='F';
-				JOptionPane.showMessageDialog(null, "end of game your statistics is: "+info);
 			}
 		}
-		//				if (type=='M') {
-		//
-		//				}
-		//				x=y=-1;
-		//			}
 
 		try {//draw the characters
 
@@ -167,6 +160,7 @@ public class JPanelWithBackground extends JPanel implements MouseListener  {
 		}
 		catch(Exception e){}
 	}
+	
 	//********************private functions**************************
 	private void swapX(Point3D a,Point3D b) {
 		double temp = a.x();
@@ -178,56 +172,31 @@ public class JPanelWithBackground extends JPanel implements MouseListener  {
 		a.set_y(b.y());
 		b.set_y(temp);
 	}
-	/**
-	 * get a global point and return true if the point is inside some box 
-	 * @param player_loc
-	 * @param box_set
-	 */
-	public static boolean isInsideBox(Point3D player_loc,ArrayList<box> box_set){
-		boolean insideBox = false;
-		Iterator<box> IterBox = box_set.iterator();
-		while (IterBox.hasNext()&&!insideBox) {
-			box curr_box = IterBox.next();
-			if ((player_loc.x()>=curr_box.getP1().x())&&(player_loc.x()<=curr_box.getP2().x())) {
-				if ((player_loc.y()>=curr_box.getP1().y())&&(player_loc.y()<=curr_box.getP2().y())) {
-					insideBox = true;
-				}
-			}
-		}
-		return insideBox;
 
-	}
-	//			private void printMat() {
-	//				GB2mat a = new GB2mat(this);
-	//				for (int r =0;r<this.getHeight();r++) {
-	//				for (int c=0;c<this.getWidth();c++) {
-	//					System.out.print(a.getMat()[r][c]);
-	//				}
-	//				System.out.println();
-	//				}
-	//			}
 
 	//**************************mouse listener function****************
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
 		x = arg0.getX();
 		y = arg0.getY();
+		//in the manual running change the azimuth by the player selections
 		if (type =='S') {
 			Point3D dst_point = m.pixel2global(new Point3D(x,y));
 			MyCoords MC = new MyCoords();
 			double[] AED = MC.azimuth_elevation_dist(((geom)this.GB.getPlayer().getGeom()).getP(), dst_point);
 			this.azimuth = AED[0];
 		}
+		//in the manual running set the select player locatin
 		if (type =='M') {
-			if (isInsideBox(this.m.pixel2global(new Point3D(x,y)), GB.getBox_set())==true) {
+			if (box.isInsideBox(this.m.pixel2global(new Point3D(x,y)), GB.getBox_set())==true) {
 				JOptionPane.showMessageDialog(null, "not valid player point. enter again");
 			}
 			else {
 				Point3D player_point = m.pixel2global(new Point3D(x,y));//global point
 				play1.setInitLocation(player_point.y(),player_point.x());//set player location
 				GB.getPlayer().set_Geom(new geom(player_point));
-				type='N';
-				repaint();
+				//				type='N';
+				//				repaint();
 
 				play1.start(); 
 				type = 'S';
@@ -259,15 +228,17 @@ public class JPanelWithBackground extends JPanel implements MouseListener  {
 		// TODO Auto-generated method stub
 
 	}
+	
 	//*******************Button event function*****************
 	public void load(ActionEvent e) {
+		//reset the game if loading after starting the game
 		if (type=='F') {
 			this.GB = new GameBoard();
 			this.play1 = null;
 			this.azimuth = 0;
 			this.type= 'N';
 		}
-
+		//open a window to let user choose the file to play with
 		JFileChooser fileChooser = new JFileChooser();
 		int result = fileChooser.showOpenDialog(this);
 		if (result == JFileChooser.APPROVE_OPTION) {
@@ -280,9 +251,9 @@ public class JPanelWithBackground extends JPanel implements MouseListener  {
 			this.GB = p2BG.getGB();//init the gameBord with the starting data
 			repaint();
 
-//			String input1 = JOptionPane.showInputDialog(null, "enter first id");
-//			String input2 = JOptionPane.showInputDialog(null, "enter second id");
-//			play1.setIDs(Long.parseLong(input1),Long.parseLong(input2));
+			//			String input1 = JOptionPane.showInputDialog(null, "enter first id");
+			//			String input2 = JOptionPane.showInputDialog(null, "enter second id");
+			//			play1.setIDs(Long.parseLong(input1),Long.parseLong(input2));
 			play1.setIDs(304950645,318875085);
 
 		}
@@ -306,10 +277,11 @@ public class JPanelWithBackground extends JPanel implements MouseListener  {
 		type = 'A';
 		new auto_main_control(play1,this).start();
 	}
+	
 	public void viewDataBase(ActionEvent e) {
 		data_base.main(null);
 	}
-	
+
 	public void clear(ActionEvent e) {
 		this.GB = new GameBoard();
 		this.play1 = null;

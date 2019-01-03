@@ -11,7 +11,7 @@ import Geom.*;
 
 public class starting_point {
 	private static MyCoords MC = new MyCoords();
-	public static Point3D find1(GameBoard GB) {
+	public static Point3D find(GameBoard GB) {
 		//create groups of fruit without the groups that related to some pachman 
 		fruit_group_layer fruits_gruops = new fruit_group_layer(GB);
 		ArrayList<fruit_group> groupsRelatedPachmans = fruits_gruops.gruops_related_to_pachmans();
@@ -27,7 +27,7 @@ public class starting_point {
 		return MC.add(fruit_loc, new Point3D(5,5,0));
 	}
 
-	public static Point3D find(GameBoard GB) {
+	public static Point3D find1(GameBoard GB) {
 		fruit starting_fruit = GB.getFruits().get((int)(Math.random()*GB.getFruits().size()));
 		Point3D fruit_loc = ((geom)starting_fruit.getGeom()).getP();
 		return MC.add(fruit_loc, new Point3D(5,5,0));
@@ -53,11 +53,12 @@ public class starting_point {
 		//find the the groups with the max distance between them 
 		double maxDist = -1; 
 		Point3D maxP = null;
+		Point3D mainP=null;
 		Iterator<fruit_group> IterGroup = fruits_gruops.iterator();
 		while (IterGroup.hasNext()) {
 			fruit_group mainGroup = IterGroup.next();
 			int randomNum= (int)(Math.random()*mainGroup.size());
-			Point3D mainP = ((geom)mainGroup.getFruits().get(randomNum).getGeom()).getP();
+			mainP = ((geom)mainGroup.getFruits().get(randomNum).getGeom()).getP();
 			Iterator<fruit_group> IterSecGroup = fruits_gruops.iterator();
 			while (IterSecGroup.hasNext()) {
 				fruit_group secGroup = IterSecGroup.next();
@@ -74,6 +75,7 @@ public class starting_point {
 				}
 			}
 		}
+		if (maxP==null) maxP = mainP;
 		return MC.add(maxP, new Point3D(1,1,0));
 	}
 }

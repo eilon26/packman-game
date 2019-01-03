@@ -1,5 +1,8 @@
 package GIS;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import Geom.Point3D;
 
 public class box  {
@@ -23,6 +26,25 @@ public class box  {
 
 	}
 
+	/**
+	 * get a global point and return true if the point is inside some box 
+	 * @param player_loc
+	 * @param box_set
+	 */
+	public static boolean isInsideBox(Point3D player_loc,ArrayList<box> box_set){
+		boolean insideBox = false;
+		Iterator<box> IterBox = box_set.iterator();
+		while (IterBox.hasNext()&&!insideBox) {
+			box curr_box = IterBox.next();
+			if ((player_loc.x()>=curr_box.getP1().x())&&(player_loc.x()<=curr_box.getP2().x())) {
+				if ((player_loc.y()>=curr_box.getP1().y())&&(player_loc.y()<=curr_box.getP2().y())) {
+					insideBox = true;
+				}
+			}
+		}
+		return insideBox;
+
+	}
 	public int getId() {
 		return id;
 	}

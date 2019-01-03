@@ -3,7 +3,6 @@ package algorithms;
 import java.util.Iterator;
 
 import Coords.MyCoords;
-import GIS.Ghost;
 import GIS.pachman;
 import GUI.JPanelWithBackground;
 import GUI.auto_main_control;
@@ -13,7 +12,7 @@ import Geom.geom;
 public class deal_with_pachman {
 	static MyCoords MC = new MyCoords();
 	final static int AmountOfRotate = 5;
-	final static int disOfClose = 8;
+	final static int disOfClose = 14;
 	
 	public static Point3D isclose(JPanelWithBackground jpanel, auto_main_control thread) {
 		Iterator<pachman> IterPach = jpanel.getGB().getPachmans().iterator();

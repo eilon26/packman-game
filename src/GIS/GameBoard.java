@@ -1,11 +1,9 @@
 package GIS;
 
 import java.util.ArrayList;
-import java.util.Collection;
+
 
 import java.util.Iterator;
-
-import Geom.Point3D;
 import Geom.geom;
 
 /**
@@ -66,7 +64,6 @@ public class GameBoard {
 				box_set.add(box);
 			}else {
 				player player = new player(line);
-				//				element_set.add(player);
 				this.player = player;
 			}
 		}
@@ -80,16 +77,16 @@ public class GameBoard {
 		}
 		//update the player location
 		int player_ID = ((pachman_metaData)player.getData()).getId();
-		String[] player_new_details = find_ID(Board_Data, player_ID);
+		String[] player_new_details = find_ID(Board_Data, player_ID,"M");
 		geom newGeom = new geom(player_new_details);
 		player.set_Geom(newGeom);
-		//update the other characters location
+		//update the fruits 
 		ArrayList<fruit> FtoBeRemove = new ArrayList<fruit>();
 		Iterator<fruit> IterFruit = fruits.iterator();
 		while (IterFruit.hasNext()) {
 			fruit curr = IterFruit.next();
 			int curr_ID = ((fruit_metaData)curr.getData()).getId();
-			String[] fruit_new_details = find_ID(Board_Data, curr_ID);
+			String[] fruit_new_details = find_ID(Board_Data, curr_ID,"F");
 			if (fruit_new_details==null) 
 				FtoBeRemove.add(curr);
 			else {
@@ -98,13 +95,13 @@ public class GameBoard {
 			}
 		}
 		fruits.removeAll(FtoBeRemove);
-
+		//update the pachmans
 		ArrayList<pachman> PtoBeRemove = new ArrayList<pachman>();
 		Iterator<pachman> IterPach = pachmans.iterator();
 		while (IterPach.hasNext()) {
 			pachman curr = IterPach.next();
 			int curr_ID = ((pachman_metaData)curr.getData()).getId();
-			String[] pachman_new_details = find_ID(Board_Data, curr_ID);
+			String[] pachman_new_details = find_ID(Board_Data, curr_ID,"P");
 			if (pachman_new_details==null) 
 				PtoBeRemove.add(curr);
 			else {
@@ -113,22 +110,23 @@ public class GameBoard {
 			}	
 		}
 		pachmans.removeAll(PtoBeRemove);
-
+		
+		//update the ghosts location
 		Iterator<Ghost> IterGhost = ghosts.iterator();
 		while (IterGhost.hasNext()) {
 			Ghost curr = IterGhost.next();
 			int curr_ID = ((pachman_metaData)curr.getData()).getId();
-			String[] Ghost_new_details = find_ID(Board_Data, curr_ID);
+			String[] Ghost_new_details = find_ID(Board_Data, curr_ID,"G");
 			newGeom = new geom(Ghost_new_details);
 			((Ghost) curr).set_Geom(newGeom);	
 		}
 	}
 
-	private String[] find_ID(ArrayList<String[]> g, int id) {
+	private String[] find_ID(ArrayList<String[]> g, int id,String character_type) {
 		Iterator<String[]> IterLine = g.iterator();
 		while(IterLine.hasNext()) {
 			String[] line = IterLine.next();
-			if (Integer.parseInt(line[1])==id) return line; 
+			if ((Integer.parseInt(line[1])==id)&&(line[0].equals(character_type))) return line; 
 		}
 		return null;
 	}
