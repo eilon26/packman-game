@@ -4,14 +4,21 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import Geom.Point3D;
-
+/**
+ * the class represent a box in the game
+ * @author EILON
+ */
 public class box  {
 	private int id;
 	private Point3D p1;//main point
 	private Point3D p2;//main point
 	private Point3D p3;
 	private Point3D p4;
-
+	
+	/**
+	 * the constructor of a box that get String[] with the box information 
+	 * @param line String[]
+	 */
 	public box(String[] line) {
 		this.id = Integer.parseInt(line[1]);
 		this.p1 = new Point3D(Double.parseDouble(line[3]),Double.parseDouble(line[2]),Double.parseDouble(line[4]));
@@ -28,8 +35,8 @@ public class box  {
 
 	/**
 	 * get a global point and return true if the point is inside some box 
-	 * @param player_loc
-	 * @param box_set
+	 * @param player_loc Point3D
+	 * @param box_set ArrayList<box>
 	 */
 	public static boolean isInsideBox(Point3D player_loc,ArrayList<box> box_set){
 		boolean insideBox = false;

@@ -9,17 +9,27 @@ import GIS.fruit;
 import Geom.Point3D;
 import Geom.geom;
 
-
+/**
+ * this class represent a group of fruit
+ * @author EILON
+ *
+ */
 public class fruit_group implements Set<fruit>{
 	private int id;
 	private ArrayList<fruit> fruits;
 	
-	
+	/**
+	 * the constructor of fruit_group
+	 * @param id
+	 */
 	public fruit_group(int id) {
 		this.id = id;
 		this.fruits = new ArrayList<fruit>();
 	}
-	
+	/**
+	 * add fruit to the group
+	 * @param fruit
+	 */
 	public void addFruit(fruit fruit) {
 		this.fruits.add(fruit);
 	}
@@ -31,6 +41,10 @@ public class fruit_group implements Set<fruit>{
 	public ArrayList<fruit> getFruits() {
 		return fruits;
 	}
+	/**
+	 * 
+	 * @return the center of the group
+	 */
 	public Point3D group_center() {
 		Point3D center = null;
 		double sumX = 0;

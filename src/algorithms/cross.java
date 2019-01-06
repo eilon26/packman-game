@@ -5,7 +5,11 @@ import java.util.Iterator;
 
 import Geom.*;
 import GIS.*;;
-
+/**
+ * this class is responsible to check if a straight line between 2 global points is cross one box at list.
+ * @author EILON
+ *
+ */
 public class cross {
 
 	/**
@@ -50,7 +54,18 @@ public class cross {
 		}
 		return findCross;
 	}
-
+/**
+ * find a straight line equation. 
+ * if "mode" = 'Y' it is return the value of "y" after insert into the equation
+ * the value of XorY to the "x" parameter. 
+ * if "mode" = 'X' it is return the value of "x" after insert into the equation
+ * the value of XorY to the "y" parameter. 
+ * @param XorY
+ * @param src
+ * @param dst
+ * @param type
+ * @return
+ */
 	private static double function(double XorY,Point3D src,Point3D dst,char type) {
 		double minX = Math.min(dst.x(), src.x());
 		double maxX = Math.max(dst.x(), src.x());

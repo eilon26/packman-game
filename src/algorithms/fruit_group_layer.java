@@ -9,13 +9,24 @@ import Coords.MyCoords;
 import GIS.*;
 import Geom.Point3D;
 import Geom.geom;
-
+/**
+ * this class represent group of groups of fruits
+ * The class responsibility is to divide the fruits into groups
+ *  by their distance from each other (without consider the boxes). 
+ * 
+ * @author EILON
+ *
+ */
 public class fruit_group_layer implements Set<fruit_group>{
 	private ArrayList<fruit_group> groups;
 	private GameBoard GB;
 	private final int MAX_DIS_IN_GROUP = 140;
 	private final int MAX_DIS_TO_ASSOCIATE_PACH = 100;
-
+	private static MyCoords MC = new MyCoords();
+/**
+ * the constractor of fruit_group_layer
+ * @param GB GameBoard
+ */
 	public fruit_group_layer(GameBoard GB) {
 		this.GB = GB;
 		//create collection of all the fruits
@@ -36,8 +47,15 @@ public class fruit_group_layer implements Set<fruit_group>{
 			this.groups.add(curr_group);
 		}
 	}
+/**
+ * a private function that help to divide the fruits into goups
+ * @param main_fruit fruit 
+ * @param fruit_colection  ArrayList<fruit>
+ * @param id int
+ * @return  a fruit_group parameter that represent a group
+ */
 	private fruit_group create_group(fruit main_fruit, ArrayList<fruit> fruit_colection,int id) {
-		MyCoords MC = new MyCoords();
+		
 		fruit_group curr_group = new fruit_group(id);
 		curr_group.addFruit(main_fruit);
 		Point3D main_fruit_point = ((geom)main_fruit.getGeom()).getP();
@@ -59,21 +77,11 @@ public class fruit_group_layer implements Set<fruit_group>{
 		fruit_colection.removeAll(curr_group);
 		return curr_group;
 	}
-
-	//	public int find_fruit_id(fruit fruit){
-	//		int id = ((fruit_metaData)fruit.getData()).getId();
-	//		Iterator<fruit_group> IterGroup = this.iterator();
-	//		while (IterGroup.hasNext()) {
-	//			fruit_group curr_group = IterGroup.next();
-	//			Iterator<fruit> Iterfruit = curr_group.iterator();
-	//			while (Iterfruit.hasNext()) {
-	//				fruit curr_fruit = Iterfruit.next();
-	//				int curr_id = ((fruit_metaData)curr_fruit.getData()).getId();
-	//				if (curr_id==id) return curr_group.getId();
-	//			}
-	//		}
-	//		return -1;
-	//	}
+/**
+ * find the fruits that related to a pachman
+ * @param pach pachman
+ * @return the fruits that related to a pach parameter inside a fruit_group parameter
+ */
 	private fruit_group find_pachman_fruits(pachman pach) {
 		fruit_group min_group = null;
 		double min_dist = Double.MAX_VALUE;
@@ -96,6 +104,10 @@ public class fruit_group_layer implements Set<fruit_group>{
 		if ((min_group==null)|| (min_dist>MAX_DIS_TO_ASSOCIATE_PACH)) return null;//there is no fruits or the pachmnan is too far from the closet fruits group
 		return min_group;
 	}
+	/**
+	 * 
+	 * @return  the fruits that the packmans are going to eat soon
+	 */
 	public ArrayList<fruit> fruits_related_to_pachmans(){
 		ArrayList<fruit_group> fruit_groups = new ArrayList<fruit_group>();
 		Iterator<pachman> IterPach = GB.getPachmans().iterator();
@@ -108,6 +120,10 @@ public class fruit_group_layer implements Set<fruit_group>{
 		}
 		return convertFruitGroups2fruitsArrylist(fruit_groups);
 	}
+	/**
+	 * 
+	 * @return  the groups of fruits that the packmans are going to eat soon
+	 */
 	public ArrayList<fruit_group> gruops_related_to_pachmans(){
 		ArrayList<fruit_group> fruit_groups = new ArrayList<fruit_group>();
 		Iterator<pachman> IterPach = GB.getPachmans().iterator();
@@ -120,6 +136,12 @@ public class fruit_group_layer implements Set<fruit_group>{
 		}
 		return fruit_groups;
 	}
+	/**
+	 * check if a specific fruit_group are already inside ArrayList of fruit_group
+	 * @param fruit_groups ArrayList<fruit_group>
+	 * @param id  int
+	 * @return true of the arraylist of the parameter fruit_group contain a fruit_group with a specific id
+	 */
 	private boolean isContainsID(ArrayList<fruit_group> fruit_groups,int id) {
 		Iterator<fruit_group> IterGroup = fruit_groups.iterator();
 		while (IterGroup.hasNext()) {
@@ -142,7 +164,11 @@ public class fruit_group_layer implements Set<fruit_group>{
 		}
 		return fruits;
 	}
-	
+	/**
+	 * find the biggest fruit_group inside fruit_group_layer
+	 * @param groups fruit_group_layer parameter
+	 * @return a fruit_group parameter that is the biggest fruit_group inside a specific fruit_group_layer
+	 */
 	public static fruit_group maxGroup(fruit_group_layer groups) {
 		int max = -1;
 		fruit_group max_group=null;
@@ -155,6 +181,33 @@ public class fruit_group_layer implements Set<fruit_group>{
 			}
 		}
 		return max_group;
+	}
+	/**
+	 * the static function find the two farest points in the group
+	 * @param group fruit_group
+	 * @return one of the two farest points in the group
+	 */
+	public static Point3D farestPoints(fruit_group group) {
+		double max_dist = Double.MIN_VALUE;
+		Point3D max_point = ((geom)group.getFruits().get(0).getGeom()).getP();
+		Iterator<fruit> IterMainfruit = group.iterator();
+		while (IterMainfruit.hasNext()) {
+			fruit main_fruit = IterMainfruit.next();
+			Point3D main_fruit_point = ((geom)main_fruit.getGeom()).getP();
+			Iterator<fruit> IterSecfruit = group.iterator();
+			while (IterSecfruit.hasNext()) {
+				fruit sec_fruit = IterSecfruit.next();
+				if (sec_fruit!=main_fruit) {
+					Point3D sec_fruit_point = ((geom)sec_fruit.getGeom()).getP();
+					double curr_dist = MC.distance3d(main_fruit_point, sec_fruit_point);
+					if (curr_dist>max_dist) {
+						max_dist = curr_dist;
+						max_point = main_fruit_point;
+					}
+				}
+			}
+		}
+		return max_point;
 	}
 	@Override
 	public boolean add(fruit_group arg0) {

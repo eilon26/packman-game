@@ -4,7 +4,7 @@ import java.util.Date;
 
 import Geom.Point3D;
 /**
- * the class is responsible to represent pachman 
+ * the class is responsible to represent pachman,ghost and player 
  * @author EILON
  *
  */
@@ -13,10 +13,9 @@ public class pachman_metaData implements Meta_Data {
 	private double speed;
 	private double radius;
 	/**
-	 * the constructor get Array of strings that represent the pachman and get array of indexes. 
+	 * the constructor get Array of strings that represent the pachman(or ghost or player ) and get array of indexes. 
 	 * by the array of indexes it know to put the information in the suitable field
 	 * @param line the Array of strings 
-	 * @param metaIndexes the array of indexes
 	 */
 	public pachman_metaData(String[] line) {
 		this.id = Integer.parseInt(line[1]);

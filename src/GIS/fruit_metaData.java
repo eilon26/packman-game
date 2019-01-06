@@ -13,10 +13,8 @@ public class fruit_metaData implements Meta_Data {
 	private int id;
 	private double weight;
 	/**
-	 * the constructor get Array of strings that represent the fruit and get array of indexes. 
-	 * by the array of indexes it know to put the information in the suitable field
+	 * the constructor get Array of strings that represent the fruit. 
 	 * @param line the Array of strings 
-	 * @param metaIndexes the array of indexes
 	 */
 	public fruit_metaData(String[] line) {
 		id = Integer.parseInt(line[1]);
