@@ -284,8 +284,7 @@ public class MainJPanel extends JPanel implements MouseListener {
 	/**
 	 * this function responsible to start the manual game and to to tell the player to choose his starting point.
 	 * 
-	 * the best score that we succeed to get is 40.7 the function running the game
-	 * in a manual mode
+	 * the best score that we succeed to get in example 8 is 41.
 	 * @param e ActionEvent parameter          
 	 */
 	public void startManual(ActionEvent e) {
@@ -293,7 +292,7 @@ public class MainJPanel extends JPanel implements MouseListener {
 		type = 'M';
 	}
 /**
- * this functon is responsible to start the auto game by choose the starting point of player 
+ * this function is responsible to start the auto game by choose the starting point of player 
  * and by start auto_main_control.
  * @param e ActionEvent
  */
