@@ -4,15 +4,19 @@ package GUI;
 import java.util.ArrayList;
 
 import Coords.MyCoords;
-import GIS.fruit;
+import GIS.*;
 import Geom.Point3D;
 import Geom.geom;
 import Robot.Play;
 import algorithms.*;
-
+/**
+ * the class extends from Thread. responsible for the movement of the player during the auto game. 
+ * @author EILON
+ *
+ */
 public class auto_main_control extends Thread {
 	private Play play1;
-	private JPanelWithBackground jpanel;
+	private MainJPanel jpanel;
 	// parameter for the terms of the inside loops
 	private boolean continue_to_next_fruit=true;
 	private boolean isGointToKill = false;
@@ -20,12 +24,21 @@ public class auto_main_control extends Thread {
 	private boolean isTooMuchTime = false;
 	private Point3D Pachman_on_way = null;
 	
-	public auto_main_control(Play play1,JPanelWithBackground jpanel) {
+	/**
+	 * the constructor of auto_main_control 
+	 * @param play1 Play
+	 * @param jpanel MainJPanel
+	 */
+	public auto_main_control(Play play1,MainJPanel jpanel) {
 		this.play1 = play1;
 		this.jpanel = jpanel;
 	}
-
+	/**
+	 * the run method of the Thread auto_main_control. it responsible to accomplish all the algorithms by
+	 * using all the classes in the algorithm package and more classes. 
+	 */
 	public void run() {
+		try {
 		closet_fruit CF;
 		ArrayList<fruit> fruitRelatedToPachmans;
 		//*********************the loop search for the next fruit by the algorithm***************************************
@@ -47,7 +60,7 @@ public class auto_main_control extends Thread {
 				MyCoords MC = new MyCoords();
 				double[] AED;
 
-				while (jpanel.getPlay1().isRuning()&&(!CF.getMinRoute().isEmpty())&&
+				while (play1.isRuning()&&(!CF.getMinRoute().isEmpty())&&
 						(jpanel.getGB().getFruits().contains(CF.getDst_fruit()))&&
 						continue_to_next_fruit&&!isGointToKill&&
 						((isCloseFruit == 'N')||(isCloseFruit == 'F'))&&
@@ -56,11 +69,11 @@ public class auto_main_control extends Thread {
 					player_loc = ((geom)jpanel.getGB().getPlayer().getGeom()).getP();//global location
 					AED = MC.azimuth_elevation_dist(player_loc, curr_dst);
 					jpanel.setAzimuth(AED[0]);
-					double sec_to_curr_dst = AED[2]/20;
-
+					double sec_to_curr_dst = AED[2]/((pachman_metaData)jpanel.getGB().getPlayer().getData()).getSpeed();
+					
 					//****************go straight to point in dijkstra way ********************************
 					int counter = 0;
-					while (jpanel.getPlay1().isRuning()&&(counter <= sec_to_curr_dst*1000)&&
+					while (play1.isRuning()&&(counter <= sec_to_curr_dst*1000)&&
 							(jpanel.getGB().getFruits().contains(CF.getDst_fruit()))&&
 							(continue_to_next_fruit(CF))&&(!deal_with_ghost.isGoingToKill(jpanel,this))&&
 							(deal_with_fruit.is_close_enough(jpanel, CF.getDst_fruit(),this)=='N')&&
@@ -88,6 +101,7 @@ public class auto_main_control extends Thread {
 		} catch (InterruptedException e) {}
 		//when the game end by pachman or time was finnishing take care to print the last statistics
 		jpanel.repaint();
+		}catch(NullPointerException e) {}
 	}
 	/**
 	 * check if the dst fruit became inside a group of some pachman

@@ -1,7 +1,5 @@
 package GUI;
 
-
-import java.awt.Graphics;
 import java.awt.Menu;
 import java.awt.MenuBar;
 import java.awt.MenuItem;
@@ -9,24 +7,29 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 
-
+/**
+ * the class that responsible on the GUI
+ * @author EILON
+ *
+ */
 public class MyFrame extends JFrame {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-	private JPanelWithBackground jpanel;
-	
+	private MainJPanel jpanel;
+	/**
+	 * the empty constructor for MyFrame 
+	 */
 	public MyFrame() 
 	{
 		
 		initGUI();		
-		this.jpanel = new JPanelWithBackground();
-		this.getContentPane().add(this.jpanel );
+		this.jpanel = new MainJPanel();
+		this.getContentPane().add(this.jpanel );//add the jpanel to "MyFrame"
 		
 		}
-
+		/**
+		 * initialization the buttons of the GUI
+		 */
 		private void initGUI() 
 		{
 			MenuBar menuBar = new MenuBar();
@@ -93,14 +96,10 @@ public class MyFrame extends JFrame {
 			this.setMenuBar(menuBar);
 	}
 
-		public synchronized void paint(Graphics g)
-		{
-			super.paint(g);
-		}	
-	
+
 	//***********************getters and setters************************
 	
-	public JPanelWithBackground getJpanel() {
+	public MainJPanel getJpanel() {
 		return jpanel;
 	}
 

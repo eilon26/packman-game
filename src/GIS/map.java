@@ -1,7 +1,7 @@
 package GIS;
 
 import Coords.MyCoords;
-import GUI.JPanelWithBackground;
+import GUI.MainJPanel;
 import Geom.Point3D;
 /**
  * this class is resposible to create the background image of the GUI and for all the 
@@ -13,13 +13,13 @@ public abstract class map {
 //	protected BufferedImage BackgroundPic;
 	protected Point3D UpRightP;
 	protected Point3D DownLeftP;
-	private JPanelWithBackground jpanel;
+	private MainJPanel jpanel;
 	protected String path;
 	/**
 	 * map constructor
 	 * @param frame MyFrame object
 	 */
-	public map(JPanelWithBackground jpanel) {
+	public map(MainJPanel jpanel) {
 		this.jpanel = jpanel;
 	}
 	/**

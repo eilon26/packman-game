@@ -11,6 +11,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 public class data_base {
+	/**
+	 * this class responsible to connect to the database that store all the information about the results
+	 * of other people that played on this game. and to display it on a new window.
+	 * @param args
+	 */
 	public static void main(String[] args)
 	{
 		String jdbcUrl="jdbc:mysql://ariel-oop.xyz:3306/oop"; //?useUnicode=yes&characterEncoding=UTF-8&useSSL=false";
@@ -28,7 +33,7 @@ public class data_base {
 			//select data
 			String fileName = "data/Ex4_OOP_example8.csv";
 			double fileNameNum = fileName.hashCode();
-			String allCustomersQuery = "SELECT * FROM logs WHERE SomeDouble="+fileNameNum;
+			String allCustomersQuery = "SELECT * FROM logs";// WHERE SomeDouble="+fileNameNum;
 			ResultSet resultSet = statement.executeQuery(allCustomersQuery);
 //			System.out.println("FirstID\t\tSecondID\tThirdID\t\tLogTime\t\t\t\tPoint\t\tSomeDouble");
 			StringBuilder content = new StringBuilder("FirstID\tSecondID\tThirdID\tLogTime\t\tPoint\t\tSomeDouble\r\n");

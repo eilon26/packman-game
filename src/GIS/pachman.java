@@ -5,18 +5,17 @@ import Geom.Geom_element;
 import Geom.Point3D;
 import Geom.geom;
 /**
- * the class that represent the pachman it has geom object pachman meta data object 
+ * the class that represent the pachman, ghost and player it has geom object pachman meta data object 
  * @author EILON
  */
 public class pachman implements GIS_element {
 
 	private geom ge;
 	private pachman_metaData md;
+	public static String pic ="pachman.png";
 	/**
-	 * constructor of pachman that get line, geomIndexes and metaIndexes
-	 * @param line array of string that contain all the information about pachman
-	 * @param geomIndexes array of int that contain the indexes of the geom fields inside line
-	 * @param metaIndexes array of int that contain the indexes of the pachman metadata fields inside line
+	 * constructor of pachman that get line
+	 * @param line array of string that contain all the information about a pachman (or ghost or player )
 	 */
 	public pachman(String[] line) {
 		this.ge = new geom(line);
@@ -45,6 +44,11 @@ public class pachman implements GIS_element {
 	 */
 	public void set_Geom(geom newGeom) {
 		this.ge = newGeom;
+	}
+
+	
+public void setMd(pachman_metaData md) {
+		this.md = md;
 	}
 
 @Override

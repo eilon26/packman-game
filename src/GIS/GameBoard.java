@@ -7,7 +7,7 @@ import java.util.Iterator;
 import Geom.geom;
 
 /**
- * the class is contain all the fruit and the pachman objects in the game
+ * the class contains all the characters in the game in the game
  * @author Daniel Ventura and Eilon tsadok
  *
  */
@@ -18,7 +18,7 @@ public class GameBoard {
 	private ArrayList<box> box_set;
 	private player player;
 	/**
-	 * the constructor
+	 * the empty constructor
 	 */
 	public GameBoard() {
 		this.player = null;
@@ -27,20 +27,6 @@ public class GameBoard {
 		this.ghosts = new ArrayList<Ghost>();
 		this.box_set = new ArrayList<box>();
 	}
-	/**
-	 * the copy constactor
-	 * @param other GameBoard parameter
-	 */
-	//	public GameBoard(GameBoard other) {
-	//		this.element_set = new ArrayList<GIS_element>();
-	//		Iterator<GIS_element>  IterE = other.iterator();
-	//		while (IterE.hasNext()) {
-	//			GIS_element curr = IterE.next();
-	//			if (curr instanceof pachman)
-	//				this.element_set.add(new pachman((pachman)curr));
-	//			else this.element_set.add(new fruit((fruit)curr));
-	//		}
-	//	}
 
 	/**
 	 * constractor that buid GameBoard from mat(after taking the csv file and convert it to mat)
@@ -68,18 +54,24 @@ public class GameBoard {
 			}
 		}
 	}
-
+	
+/**
+ * the function get the parameter "board_data" and update the fields that change
+ * @param board_data ArrayList<String>
+ */
 	public void update_GameBoard(ArrayList<String> board_data){
 		ArrayList<String[]> Board_Data = new ArrayList<String[]>();
 		for(int i=0;i<board_data.size();i++) {
 			String[] element = board_data.get(i).split(",");
 			Board_Data.add(element);
 		}
-		//update the player location
+		//update the player location and speed
 		int player_ID = ((pachman_metaData)player.getData()).getId();
 		String[] player_new_details = find_ID(Board_Data, player_ID,"M");
 		geom newGeom = new geom(player_new_details);
+		pachman_metaData newMetaData = new pachman_metaData(player_new_details);
 		player.set_Geom(newGeom);
+		player.setMd(newMetaData);
 		//update the fruits 
 		ArrayList<fruit> FtoBeRemove = new ArrayList<fruit>();
 		Iterator<fruit> IterFruit = fruits.iterator();
@@ -121,7 +113,16 @@ public class GameBoard {
 			((Ghost) curr).set_Geom(newGeom);	
 		}
 	}
-
+/**
+ * find the String[] from an ArrayList<String[]> that contains the information about
+ * the character with the id "id"  and with the type "character_type"
+ * @param g ArrayList<String[]>
+ * @param id int
+ * @param character_type String
+ * @return the String[] from an ArrayList<String[]> that contains the information about
+ * the character with the id "id"  and with the type "character_type"
+ * if there is no one like that, it will return null
+ */
 	private String[] find_ID(ArrayList<String[]> g, int id,String character_type) {
 		Iterator<String[]> IterLine = g.iterator();
 		while(IterLine.hasNext()) {

@@ -9,14 +9,27 @@ import java.util.Stack;
 
 import Coords.MyCoords;
 import GIS.box;
-import GUI.JPanelWithBackground;
+import GUI.MainJPanel;
 import Geom.Point3D;
-
+/**
+ * the class advence_dijkstra is responsible to find the shortest route from one
+ * global point to another. while take care not crash into the boxes
+ * this class works basing on the dijkstra algorithm 
+ * @author EILON
+ *
+ */
 public class advence_dijkstra {
 	private Stack<Point3D> route;
 	private double routeDist;
-	
-	public advence_dijkstra(JPanelWithBackground jpanel, Point3D a, Point3D b){
+	/**
+	 * the constructor of advence_dijkstra
+	 * it is get 2 global points and build the shortest route (and calculate its distance) between them
+	 * without crossing the boxes 
+	 * @param jpanel MainJPanel
+	 * @param a Point3D global point
+	 * @param b Point3D global point
+	 */
+	public advence_dijkstra(MainJPanel jpanel, Point3D a, Point3D b){
 
 		MyCoords MC = new MyCoords();
 		//init all the nodes
@@ -83,7 +96,11 @@ public class advence_dijkstra {
 			
 			}
 	}
-
+	/**
+	 * 
+	 * @return the stack that contain the points of the route 
+	 * the first point to be pop up is the first point the player shoud go
+	 */
 	public Stack<Point3D> getRoute() {
 		return route;
 	}

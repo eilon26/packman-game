@@ -1,6 +1,6 @@
 package GIS;
 
-import GUI.JPanelWithBackground;
+import GUI.MainJPanel;
 
 import Geom.Point3D;
 /**
@@ -14,7 +14,7 @@ public class ariel_map extends map {
  * ariel_map Constructor that get frame and initialize the empty fields in map class by "Ariel" pic
  * @param frame Myframe object
  */
-	public ariel_map(JPanelWithBackground jpanel) {
+	public ariel_map(MainJPanel jpanel) {
 		super(jpanel);
 		DownLeftP = new Point3D( 35.202403,32.101923,0);
 		UpRightP = new Point3D( 35.212438,32.105959,0);
